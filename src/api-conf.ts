@@ -1,0 +1,1 @@
+export const python_ai_endpoint = "http://localhost";

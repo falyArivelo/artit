@@ -1,17 +1,26 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
 
+import { User } from "./User.entity";
 
-@Entity({ name: 'art_types' })
-export class Art_type {
+@Entity({ name: 'event_inscriptions' })
+export class Event_inscription {
 
-    //art_type_id: number; 
+    //event_inscriptions: number; 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
-    art_type_id: number;
+    event_inscription_id: number;
 
-    @Column()
-    art_type_label: string;
+
+    @ManyToOne(() => User, { nullable: true })
+    @JoinColumn({ name: 'user_id' })
+    user: User;
+
+    @Column({ type: 'timestamp' })
+    event_inscription_date: Date;
+
+
+    @Column({ type: 'int4' })
+    event_inscription_state: number;
 
 
 

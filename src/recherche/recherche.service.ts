@@ -4,6 +4,7 @@ import { Media } from 'src/entities/Media.entity';
 import { Repository } from 'typeorm';
 import { forwardRef, Inject } from '@nestjs/common';
 import axios from 'axios';
+import { python_ai_endpoint } from 'src/api-conf';
 
 @Injectable()
 export class RechercheService {
@@ -16,7 +17,7 @@ export class RechercheService {
         var medias: Media[] = await this.mediaRepository.find();
         for(let i = 0; i < medias.length; i++){ // pour chaque media de la base de donnée
             // miala tsiny kely 
-            const response: any = await axios.post("http://127.0.0.1:1113/compare/", {
+            const response: any = await axios.post(python_ai_endpoint + ":1113/compare/", {
                 search: textToSearch,
                 word: medias[i].media_ia_descriptor
             });

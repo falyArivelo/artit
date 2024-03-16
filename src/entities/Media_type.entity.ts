@@ -1,25 +1,19 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,BeforeInsert, BeforeUpdate } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
 
 
 @Entity({ name: 'media_types' })
 export class Media_type {
+    //media_type_id: number; 
+    @PrimaryGeneratedColumn()
+    media_type_id: number;
 
-            //media_type_id: number; 
-            @PrimaryGeneratedColumn()
-         media_type_id: number; 
+    @Column()
+    media_type_label: string;
 
+    @Column()
+    media_type_extension: string;
 
-            @Column()
-         media_type_label: string; 
-
-
-            @Column()
-         media_type_extension: string; 
-
-
-
-    
     @BeforeInsert()
     @BeforeUpdate()
     async validate() {

@@ -10,7 +10,6 @@ import { ProfilsModule } from './profils/modules/Profil.module';
 import { Art_typesModule } from './art_types/modules/Art_type.module';
 import { Media_typesModule } from './media_types/modules/Media_type.module';
 import { PaiementsModule } from './paiements/modules/Paiement.module';
-import { UsersModule } from './users/modules/User.module';
 import { MediasModule } from './medias/modules/Media.module';
 import { EventsModule } from './events/modules/Event.module';
 import { Media_interactionsModule } from './media_interactions/modules/Media_interaction.module';
@@ -19,6 +18,12 @@ import { RechercheController } from './recherche/recherche.controller';
 import { IaDescriptorService } from './ia-descriptor/ia-descriptor.service';
 import { RechercheModule } from './recherche/recherche.module';
 import { Media } from './entities/Media.entity';
+import { UsersModule } from './users/users.module';
+import { Media_filesModule } from './media_files/modules/Media_file.module';
+import { Event_inscriptionsModule } from './event_inscriptions/modules/Event_inscription.module';
+import { DonnationsModule } from './donnations/modules/Donnation.module';
+import { Event_detailsModule } from './event_details/modules/Event_detail.module';
+import { AuthModule } from './auth/auth.module';
 // ajout imports
 
 @Module({
@@ -37,7 +42,7 @@ import { Media } from './entities/Media.entity';
       dest: './uploads', // Répertoire de destination pour enregistrer les fichiers téléchargés
     }),
     GoogleAuthModule,
-
+    AuthModule,
     ProfilsModule,
     Art_typesModule,
     Media_typesModule,
@@ -47,6 +52,10 @@ import { Media } from './entities/Media.entity';
     EventsModule,
     Media_interactionsModule,
     RechercheModule,
+    Media_filesModule,
+    Event_inscriptionsModule,
+    DonnationsModule,
+    Event_detailsModule,
     // a ajouter
 
   ],

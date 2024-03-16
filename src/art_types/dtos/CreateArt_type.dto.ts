@@ -1,3 +1,3 @@
-export class CreateArt_typeDto{
-        art_type_label: number; 
+export class CreateArt_typeDto {
+        art_type_label: string;
 }

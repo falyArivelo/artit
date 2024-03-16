@@ -1,20 +1,21 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
 
+import { Media } from "./Media.entity";
 
-@Entity({ name: 'art_types' })
-export class Art_type {
+@Entity({ name: 'media_files' })
+export class Media_file {
 
-    //art_type_id: number; 
+    //media_files_id: number; 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
-    art_type_id: number;
+    media_file_id: number;
 
-    @Column()
-    art_type_label: string;
+    @ManyToOne(() => Media, { nullable: true })
+    @JoinColumn({ name: 'media_id' })
+    media: Media;
 
-
-
+    @Column({ type: 'bytea' })
+    media_file_data: Uint8Array;
 
     @BeforeInsert()
     @BeforeUpdate()
