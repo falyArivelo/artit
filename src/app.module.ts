@@ -29,7 +29,7 @@ import { Media } from './entities/Media.entity';
       port: 5432, // Le port de votre base de données PostgreSQL par défaut est 5432
       username: 'your_username', // Le nom d'utilisateur de votre base de données
       password: 'your_password', // Le mot de passe de votre base de données
-      database: 'artit', // Le nom de votre base de données
+      database: 'artit2', // Le nom de votre base de données
       entities: [__dirname + '/**/*.entity{.ts,.js}', Media],
       synchronize: true, // Mettez à true pour synchroniser automatiquement les entités avec la base de données (utile pour le développement)
     }),
@@ -47,11 +47,10 @@ import { Media } from './entities/Media.entity';
     EventsModule,
     Media_interactionsModule,
     RechercheModule,
-     ,
     // a ajouter
 
   ],
-  controllers: [AppController, RechercheController],
-  providers: [AppService, IaDescriptorService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }

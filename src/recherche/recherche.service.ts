@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Media } from 'src/entities/Media.entity';
 import { Repository } from 'typeorm';
+import { forwardRef, Inject } from '@nestjs/common';
 
 @Injectable()
 export class RechercheService {
     
     constructor(
-        /*@InjectRepository(Media) */private mediaRepository: Repository<Media>,
+        @InjectRepository(Media) private mediaRepository: Repository<Media>,
     ) {}
 
     async search(textToSearch: string){
