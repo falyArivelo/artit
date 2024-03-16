@@ -33,14 +33,20 @@ export class AuthController {
 
   @Post('checkGmail')
   async check(@Body('email') email: string) {
-    const user = await this.userService.findByEmail(email);
+    try {
+      const user = await this.userService.findByEmail(email);
 
-    if (!user) {
-      // throw new NotFoundException(`User with email ${email} not found`);
+      if (!user) {
+        // throw new NotFoundException(`User with email ${email} not found`);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
       return false;
+
     }
 
-    return true;
   }
 
 }
