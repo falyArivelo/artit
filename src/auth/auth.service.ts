@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthPayloadDto, LoginDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,8 +27,8 @@ const fakeUsers = [
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private userService: UsersService
-  ) { }
+    private userService: UsersService,
+  ) {}
 
   // Méthode pour générer un JWT
   generateToken(userId: number): string {
@@ -36,7 +40,7 @@ export class AuthService {
     return this.jwtService.verify(token);
   }
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
     const user = await this.userService.findByEmail(email);
 
@@ -49,7 +53,7 @@ export class AuthService {
     }
 
     const token = this.generateToken(user.user_id);
-    return { token };
+    return { token, user };
   }
 
   async validateUser({ email, password }: AuthPayloadDto) {
@@ -57,10 +61,9 @@ export class AuthService {
     //const findUser = await this.userService.findByEmail(email)
     if (!findUser) return null;
     if (password === findUser.password) {
-      console.log("loged")
+      console.log('loged');
       const { password, ...user } = findUser;
       return this.jwtService.sign(user);
     }
-
   }
 }
