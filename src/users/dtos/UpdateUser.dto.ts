@@ -4,5 +4,6 @@ export class UpdateUserDto{
     password: string;
     birth: Date;
     email: string;
-    profil_id: number; 
+    profil_id: number;
+    photo_url: string;
 }
