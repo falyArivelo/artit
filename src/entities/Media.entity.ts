@@ -41,6 +41,7 @@ export class Media {
             @JoinColumn({ name: 'media_type_id' })
             media_type: Media_type;
 
+            score: number;
 
     
     @BeforeInsert()
