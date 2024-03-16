@@ -13,17 +13,12 @@ import { PaiementsModule } from './paiements/modules/Paiement.module';
 import { MediasModule } from './medias/modules/Media.module';
 import { EventsModule } from './events/modules/Event.module';
 import { Media_interactionsModule } from './media_interactions/modules/Media_interaction.module';
-<<<<<<< Updated upstream
 import { RechercheService } from './recherche/recherche.service';
 import { RechercheController } from './recherche/recherche.controller';
 import { IaDescriptorService } from './ia-descriptor/ia-descriptor.service';
 import { RechercheModule } from './recherche/recherche.module';
 import { Media } from './entities/Media.entity';
-=======
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { UploaderModule } from './uploader/uploader.module';
->>>>>>> Stashed changes
 // ajout imports
 
 @Module({
@@ -42,11 +37,6 @@ import { UploaderModule } from './uploader/uploader.module';
       dest: './uploads', // Répertoire de destination pour enregistrer les fichiers téléchargés
     }),
     GoogleAuthModule,
-<<<<<<< Updated upstream
-
-=======
-    UploaderModule,
->>>>>>> Stashed changes
     ProfilsModule,
     Art_typesModule,
     Media_typesModule,
@@ -55,11 +45,7 @@ import { UploaderModule } from './uploader/uploader.module';
     MediasModule,
     EventsModule,
     Media_interactionsModule,
-<<<<<<< Updated upstream
     RechercheModule,
-=======
-    AuthModule
->>>>>>> Stashed changes
     // a ajouter
 
   ],

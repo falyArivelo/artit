@@ -1,9 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
-<<<<<<< Updated upstream
 import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
-=======
-import { IsDate, IsEmail, IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
->>>>>>> Stashed changes
 
 import { Profil } from "./Profil.entity";
 
@@ -12,63 +8,32 @@ export class User {
 
    //user_id: number; 
    @PrimaryGeneratedColumn()
+
    user_id: number;
-<<<<<<< Updated upstream
-
-
-   @Column()
-   user_name: string;
-
-
-   @Column()
-   user_password: string;
-
-
-   @Column({ type: 'date' })
-   user_birth: Date;
-
-
-   @Column()
-   user_email: string;
-
-
-   @ManyToOne(() => Profil, { nullable: true })
-   @JoinColumn({ name: 'profil_id' })
-   profil: Profil;
-
-
-
-=======
 
    @Column()
    @IsNotEmpty()
    name: string;
 
    @Column()
-   @IsNotEmpty()
-   gender: string;
-
+   gender:string;
+   
    @Column()
-   @IsNotEmpty()
    password: string;
 
 
    @Column({ type: 'date' })
    birth: Date;
 
-   @Column()
-   @IsEmail()
-   email: string;
 
+   @Column()
+   email: string;
 
    @ManyToOne(() => Profil, { nullable: true })
    @JoinColumn({ name: 'profil_id' })
-   @IsNotEmpty()
    profil: Profil;
 
 
-
->>>>>>> Stashed changes
    @BeforeInsert()
    @BeforeUpdate()
    async validate() {
