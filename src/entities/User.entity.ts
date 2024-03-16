@@ -1,14 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
-import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
+import { IsNotEmpty, IsOptional, validateOrReject, ValidationError } from 'class-validator';
 
 import { Profil } from "./Profil.entity";
 
 @Entity({ name: 'users' })
 export class User {
-
-   //user_id: number; 
    @PrimaryGeneratedColumn()
-
    user_id: number;
 
    @Column()
@@ -16,23 +13,25 @@ export class User {
    name: string;
 
    @Column()
-   gender:string;
-   
+   gender: string;
+
    @Column()
    password: string;
-
 
    @Column({ type: 'date' })
    birth: Date;
 
-
    @Column()
    email: string;
+
+  
 
    @ManyToOne(() => Profil, { nullable: true })
    @JoinColumn({ name: 'profil_id' })
    profil: Profil;
 
+   // @Column()
+   // photo_url: string;
 
    @BeforeInsert()
    @BeforeUpdate()

@@ -23,10 +23,6 @@ export class Event {
    event_end_date: Date;
 
 
-   @Column({ type: 'numeric' })
-   event_price_start: Object;
-
-
    @Column({ type: 'text' })
    event_description: string;
 

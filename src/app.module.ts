@@ -19,6 +19,11 @@ import { IaDescriptorService } from './ia-descriptor/ia-descriptor.service';
 import { RechercheModule } from './recherche/recherche.module';
 import { Media } from './entities/Media.entity';
 import { UsersModule } from './users/users.module';
+import { Media_filesModule } from './media_files/modules/Media_file.module';
+import { Event_inscriptionsModule } from './event_inscriptions/modules/Event_inscription.module';
+import { DonnationsModule } from './donnations/modules/Donnation.module';
+import { Event_detailsModule } from './event_details/modules/Event_detail.module';
+import { AuthModule } from './auth/auth.module';
 // ajout imports
 
 @Module({
@@ -37,6 +42,7 @@ import { UsersModule } from './users/users.module';
       dest: './uploads', // Répertoire de destination pour enregistrer les fichiers téléchargés
     }),
     GoogleAuthModule,
+    AuthModule,
     ProfilsModule,
     Art_typesModule,
     Media_typesModule,
@@ -46,6 +52,10 @@ import { UsersModule } from './users/users.module';
     EventsModule,
     Media_interactionsModule,
     RechercheModule,
+    Media_filesModule,
+    Event_inscriptionsModule,
+    DonnationsModule,
+    Event_detailsModule,
     // a ajouter
 
   ],
