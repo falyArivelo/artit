@@ -1,21 +1,21 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,BeforeInsert, BeforeUpdate } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
 
 
 @Entity({ name: 'art_types' })
 export class Art_type {
 
-            //art_type_id: number; 
-            @PrimaryGeneratedColumn()
-         art_type_id: number; 
+    //art_type_id: number; 
+    @PrimaryGeneratedColumn()
+    @IsNotEmpty()
+    art_type_id: number;
+
+    @Column()
+    art_type_label: string;
 
 
-            @Column({ type: 'int4' })
-         art_type_label: number; 
 
 
-
-    
     @BeforeInsert()
     @BeforeUpdate()
     async validate() {

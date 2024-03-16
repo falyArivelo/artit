@@ -1,3 +1,3 @@
 export class UpdateArt_typeDto {
-        art_type_label: number; 
+        art_type_label: string; 
 }
