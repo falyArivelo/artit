@@ -10,7 +10,7 @@ export class RechercheController {
     search(textToSearch: string) {
         var response: ApiResponse = new ApiResponse();
         try{
-            response.data.push({ medias: this.rechercheService.search(textToSearch) })
+            response.data = [{ medias: this.rechercheService.search(textToSearch) }];
             response.success = true;
             response.status_code = 200;
         }catch(error){
