@@ -27,10 +27,10 @@ import { Media } from './entities/Media.entity';
       type: 'postgres', // Le type de votre base de données (postgres pour PostgreSQL)
       host: 'localhost', // L'adresse de votre base de données
       port: 5432, // Le port de votre base de données PostgreSQL par défaut est 5432
-      username: 'your_username', // Le nom d'utilisateur de votre base de données
-      password: 'your_password', // Le mot de passe de votre base de données
-      database: 'artit2', // Le nom de votre base de données
-      entities: [__dirname + '/**/*.entity{.ts,.js}', Media],
+      username: 'postgres', // Le nom d'utilisateur de votre base de données
+      password: 'root', // Le mot de passe de votre base de données
+      database: 'artit', // Le nom de votre base de données
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Mettez à true pour synchroniser automatiquement les entités avec la base de données (utile pour le développement)
     }),
     MulterModule.register({
