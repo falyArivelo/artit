@@ -16,31 +16,7 @@ export class MediasService {
         @InjectRepository(Media_file) private mediaFileRepository: Repository<Media_file>,
     ) {  }
 
-    async getMediaFiles(files: File[]) {
-      var medias: Media_file[] = [];
-      for (let img of files) {
-          
-          const mediaFileData = new Uint8Array();//await this.convertFileToByte(img);
-          let file: Media_file = new Media_file();
-          file.media_file_data = mediaFileData;
-          medias.push(file);
-      }
-      return medias;
-    } 
-
-   convertFileToByte(file: File): Promise<Uint8Array> {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsArrayBuffer(file);
-        fileReader.onload = () => {
-            const byteArray = new Uint8Array(fileReader.result as ArrayBuffer);
-            resolve(byteArray);
-        };
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
-  }
+   
   
   async processSavingMedia(mediaDto: UploadMediaDto, files: File[]){
       var mediaFiles : Media_file[] = await getMediaFiles(files);
@@ -66,7 +42,7 @@ export class MediasService {
        } catch (error) {
            // Gérez les erreurs spécifiques si nécessaire
            console.error(error.message);
-           throw new Error(error.message || 'Une erreur est survenue lors de la création de la Media');
+           throw new Error(error.message);
            // throw new NotFoundException('Échec de la création de la Media');
          }
     }

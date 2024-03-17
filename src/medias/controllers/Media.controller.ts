@@ -3,11 +3,13 @@ import { CreateMediaDto } from 'src/medias/dtos/CreateMedia.dto';
 import { UpdateMediaDto } from 'src/medias/dtos/UpdateMedia.dto';
 import { MediasService } from 'src/medias/services/Media.service';
 import { UploadMediaDto } from '../dtos/UploadMedia.dto';
-import { FilesInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
+import {  NoFilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { storage_config } from 'src/helper/file.helper';
 
 @Controller('medias')
 export class MediasController {
-    constructor(private mediasService: MediasService) { }
+    constructor(private mediasService: MediasService, ) { }
 
     @Get()
     getMedias() {
@@ -30,9 +32,11 @@ export class MediasController {
         }
     }
 
+    
+
     @Post("/save")
-    @UseInterceptors(FilesInterceptor('files'))
-    async createMedia2(@Body() uploadMediaDto: UploadMediaDto, @UploadedFiles() files) {
+    @UseInterceptors(FilesInterceptor('files', null, { storage: storage_config}))
+    async createMedia2(@Body() uploadMediaDto: UploadMediaDto, @UploadedFiles() files: File[]) {
         try {
             this.mediasService.processSavingMedia(uploadMediaDto, files);
             return "ok";
