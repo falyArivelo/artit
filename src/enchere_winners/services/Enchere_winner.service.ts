@@ -39,8 +39,8 @@ export class Enchere_winnersService {
          const { user_id ,enchere_id ,amount ,} = createEnchere_winnerDto;
         const newEnchere_winner = this.enchere_winnersRepository.create({
             amount ,
-                user: { user_id: user_id },
-                enchere: { enchere_id: enchere_id },
+            user: { user_id: user_id },
+            enchere: { enchere_id: enchere_id },
           });
          await this.enchere_winnersRepository.save(newEnchere_winner);
          return 'La  Enchere_winner a été créée avec succès';

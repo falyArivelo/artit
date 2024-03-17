@@ -15,9 +15,12 @@ import { Enchere } from './Enchere.entity';
 @Entity({ name: 'enchere_winners' })
 export class Enchere_winner {
   //enchere_winner: number;
-  @PrimaryGeneratedColumn()
-  enchere_winner_id: number;
-
+            //enchere_winner: number; 
+            @PrimaryGeneratedColumn()
+            enchere_winner_id: number; 
+  @ManyToOne(() => User, { nullable: true })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @ManyToOne(() => Enchere, { nullable: true })
   @JoinColumn({ name: 'enchere_id' })
