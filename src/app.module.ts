@@ -57,7 +57,6 @@ import { AuthModule } from './auth/auth.module';
     DonnationsModule,
     Event_detailsModule,
     // a ajouter
-
   ],
   controllers: [AppController],
   providers: [AppService],

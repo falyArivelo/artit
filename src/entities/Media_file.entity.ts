@@ -17,8 +17,9 @@ export class Media_file {
     @Column({ type: 'bytea' })
     media_file_data: Uint8Array;
 
-    @BeforeInsert()
-    @BeforeUpdate()
+
+//    @BeforeInsert()
+//    @BeforeUpdate()
     async validate() {
         try {
             await validateOrReject(this, { skipMissingProperties: true });

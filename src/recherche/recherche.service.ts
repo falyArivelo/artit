@@ -15,16 +15,15 @@ export class RechercheService {
 
     async search(textToSearch: string){
         var medias: Media[] = await this.mediaRepository.find();
-        for(let i = 0; i < medias.length; i++){ // pour chaque media de la base de donnée
-            // miala tsiny kely 
+        for(let i = 0; i < medias.length; i++){
             const response: any = await axios.post(python_ai_endpoint + ":1113/compare/", {
                 search: textToSearch,
                 word: medias[i].media_ia_descriptor
             });
             console.log("Response ",response);
-            medias[i].score = parseFloat(response.score); // ajouter un score au media
+            medias[i].score = parseFloat(response.score); 
         }
-        medias.sort((a, b) => b.score - a.score); // trier les medias selon la recherche
+        medias.sort((a, b) => b.score - a.score); // trier les medias selon le score
         return medias;
     }
 }

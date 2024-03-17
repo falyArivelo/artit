@@ -30,8 +30,8 @@ export class User {
    @JoinColumn({ name: 'profil_id' })
    profil: Profil;
 
-   // @Column()
-   // photo_url: string;
+   @Column()
+   photo_url: string;
 
    @BeforeInsert()
    @BeforeUpdate()

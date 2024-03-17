@@ -44,8 +44,8 @@ export class Media {
    score: number;
 
     
-    @BeforeInsert()
-    @BeforeUpdate()
+    //@BeforeInsert()
+    //@BeforeUpdate()
     async validate() {
         try {
             await validateOrReject(this, { skipMissingProperties: true });
