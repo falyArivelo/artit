@@ -15,7 +15,7 @@ export class Media_file {
     media: Media;
 
     @Column({ type: 'bytea' })
-    media_file_data: Uint8Array;
+    media_file_data: string;
 
 
 //    @BeforeInsert()

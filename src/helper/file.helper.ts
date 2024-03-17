@@ -1,4 +1,5 @@
 import { Media_file } from "src/entities/Media_file.entity";
+import { diskStorage } from 'multer';
 
 // base64 to byteas
 export function Uint8ArrayFromBase64(base64: string) {
@@ -21,20 +22,27 @@ export function fileToUint8Array(file: File) {
     });
 }
 
-export async function getMediaFiles(files: File[]) {
+export async function getMediaFiles(files: any[]) {
     var medias: Media_file[] = [];
+    console.log(files);
     for (let img of files) {
-        let file: any = new Media_file();
         console.log(img)
-        // Convert the image to a byte array using arrayBuffer()
-        const arrayBuffer = await (img as any).buffer;
-        const byteArray = new Uint8Array(arrayBuffer);
-        // Assuming Media_file has a property to store the byte array
-        file.media_file_data = byteArray;
+        let file: any = new Media_file();
+        // Convert the image to a base64 string
+        const base64String = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(img.path);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = error => reject(error);
+        });
+
+        // Remove the data URL prefix (e.g., "data:image/png;base64,")
+        file.media_file_data = base64String.split(',')[1];
         medias.push(file);
     }
     return medias;
 }
+
 
 
 /*function convertFileToByte(file) {
@@ -74,3 +82,11 @@ function convertFileToByte(file: File) {
         reader.readAsArrayBuffer(file);
     });
 }
+
+export const storage_config = diskStorage({
+    destination: './uploads',
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      cb(null, file.fieldname + '-' + uniqueSuffix);
+    },
+  });
