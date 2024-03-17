@@ -61,12 +61,56 @@ CREATE TABLE Events(
    FOREIGN KEY(user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE Event_details(
-   event_detail_id SERIAL PRIMARY KEY,
-   event_id int,
-   event_price_debut double precision,
-   FOREIGN KEY(event_id) REFERENCES Events(event_id)
+-- CREATE TABLE Event_details(
+--    event_detail_id SERIAL PRIMARY KEY,
+--    event_id int,
+--    event_price_debut double precision,
+--    FOREIGN KEY(event_id) REFERENCES Events(event_id)
+-- );
+
+CREATE TABLE Event_inscriptions(
+   event_inscriptions SERIAL PRIMARY KEY,
+   user_id int,
+   event_inscription_date TIMESTAMP,
+   event_inscription_state int,
+   FOREIGN KEY(user_id) REFERENCES Users(user_id)
 );
+
+CREATE TABLE encheres(
+   enchere_id SERIAL PRIMARY KEY,
+   event_id int,
+   enchere_name VARCHAR(250),
+   enchere_price_base double precision,
+   media_id int,
+   FOREIGN KEY(event_id) REFERENCES Events(event_id),
+   FOREIGN KEY(media_id) REFERENCES Medias(media_id)
+);
+
+CREATE TABLE enchere_winners(
+   enchere_winner SERIAL PRIMARY KEY,
+   user_id int,
+   enchere_id int,
+   amount double precision,
+   FOREIGN KEY(user_id) REFERENCES Users(user_id),
+   FOREIGN KEY(enchere_id) REFERENCES encheres(enchere_id)
+);
+
+CREATE TABLE expositions(
+   exposition_id  SERIAL PRIMARY KEY,
+   exposition_name VARCHAR(250),
+   exposition_description TEXT
+);
+
+CREATE TABLE exposition_medias(
+   exposition_media_id SERIAL PRIMARY KEY,
+   media_id int,
+   FOREIGN KEY(media_id) REFERENCES Medias(media_id)
+);
+
+-- CREATE TABLE lives(
+--    live_id SERIAL PRIMARY KEY,
+
+-- );
 
 CREATE TABLE Media_interactions(
    media_interactions_id SERIAL PRIMARY KEY,
@@ -76,13 +120,6 @@ CREATE TABLE Media_interactions(
    FOREIGN KEY(user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE Event_inscriptions(
-   event_inscriptions SERIAL PRIMARY KEY,
-   user_id int,
-   event_inscription_date TIMESTAMP,
-   event_inscription_state int,
-   FOREIGN KEY(user_id) REFERENCES Users(user_id)
-);
 
 CREATE TABLE Donnations(
    donnation_id SERIAL PRIMARY KEY,

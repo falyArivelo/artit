@@ -10,32 +10,24 @@ export class Event {
    @PrimaryGeneratedColumn()
    event_id: number;
 
-
    @Column()
    event_name: string;
-
 
    @Column({ type: 'timestamp' })
    event_start_date: Date;
 
-
    @Column({ type: 'timestamp' })
    event_end_date: Date;
-
 
    @Column({ type: 'text' })
    event_description: string;
 
-
    @Column({ type: 'int4' })
    event_state: number;
-
 
    @ManyToOne(() => User, { nullable: true })
    @JoinColumn({ name: 'user_id' })
    user: User;
-
-
 
    @BeforeInsert()
    @BeforeUpdate()

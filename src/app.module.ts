@@ -24,6 +24,10 @@ import { Event_inscriptionsModule } from './event_inscriptions/modules/Event_ins
 import { DonnationsModule } from './donnations/modules/Donnation.module';
 import { Event_detailsModule } from './event_details/modules/Event_detail.module';
 import { AuthModule } from './auth/auth.module';
+import { EncheresModule } from './encheres/modules/Enchere.module';
+import { Enchere_winnersModule } from './enchere_winners/modules/Enchere_winner.module';
+import { ExpositionsModule } from './expositions/modules/Exposition.module';
+import { Exposition_mediasModule } from './exposition_medias/modules/Exposition_media.module';
 // ajout imports
 
 @Module({
@@ -56,6 +60,10 @@ import { AuthModule } from './auth/auth.module';
     Event_inscriptionsModule,
     DonnationsModule,
     Event_detailsModule,
+EncheresModule,
+Enchere_winnersModule,
+ExpositionsModule,
+Exposition_mediasModule,
     // a ajouter
   ],
   controllers: [AppController],
