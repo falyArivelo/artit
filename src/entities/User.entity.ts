@@ -24,7 +24,6 @@ export class User {
    @Column()
    email: string;
 
-  
 
    @ManyToOne(() => Profil, { nullable: true })
    @JoinColumn({ name: 'profil_id' })
@@ -32,6 +31,10 @@ export class User {
 
    @Column()
    photo_url: string;
+<<<<<<< Updated upstream
+=======
+   
+>>>>>>> Stashed changes
 
    @BeforeInsert()
    @BeforeUpdate()

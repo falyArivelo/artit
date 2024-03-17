@@ -1,18 +1,22 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,BeforeInsert, BeforeUpdate } from "typeorm";
 import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
 
+import { Media } from "./Media.entity";
 
-@Entity({ name: 'art_types' })
-export class Art_type {
+@Entity({ name: 'exposition_medias' })
+export class Exposition_media {
 
-    //art_type_id: number; 
-    @PrimaryGeneratedColumn()
-    @IsNotEmpty()
-    art_type_id: number;
+            //exposition_media_id: number; 
+            @PrimaryGeneratedColumn()
+         exposition_media_id: number; 
 
-    @Column()
-    art_type_label: string;
 
+            @ManyToOne(() => Media, { nullable: true })
+            @JoinColumn({ name: 'media_id' })
+            media: Media;
+
+
+    
     @BeforeInsert()
     @BeforeUpdate()
     async validate() {
