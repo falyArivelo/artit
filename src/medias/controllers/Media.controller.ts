@@ -13,10 +13,10 @@ export class MediasController {
     constructor(private mediasService: MediasService, ) { }
 
     @Get()
-    getMedias() {
+    async getMedias() {
         const apiResponse: ApiResponse = new ApiResponse();
         try {
-            apiResponse.data.push (this.mediasService.findMedias());
+            apiResponse.data = await this.mediasService.findMedias() ;
             apiResponse.success = true;
             apiResponse.status_code = 200;
         } catch(error){
@@ -30,6 +30,11 @@ export class MediasController {
     @Get(':id')
     getMedia(@Param('id') id: number) {
         return this.mediasService.findMediaById(id);
+    }
+
+    @Get('user/:id')
+    async getMediaByUserId(@Param('id') id: number) {
+       return await this.mediasService.processFetchUserPreferedMedia(id);
     }
 
     @Post()

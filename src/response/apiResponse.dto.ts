@@ -3,5 +3,5 @@ export class ApiResponse {
     success: boolean;
     error: boolean;
     message: string;
-    data: any[];
+    data: any;
 }

@@ -7,9 +7,10 @@ import { Media_type } from 'src/entities/Media_type.entity';
 import { Media_filesModule } from 'src/media_files/modules/Media_file.module';
 import { Media_file } from 'src/entities/Media_file.entity';
 import { Media_filesService } from 'src/media_files/services/Media_file.service';
+import { User_historique } from 'src/entities/User_historique.entity';
 @Module({
   imports:[
-    TypeOrmModule.forFeature([Media,]), 
+    TypeOrmModule.forFeature([Media, User_historique]), 
     TypeOrmModule.forFeature([Media_file])
   ],
   controllers: [MediasController,],

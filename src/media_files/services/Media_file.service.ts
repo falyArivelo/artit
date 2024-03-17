@@ -12,7 +12,11 @@ export class Media_filesService {
     ) { }
 
     findMedia_files_by_media(media_id: number) {
-        return this.media_filesRepository.find({where: {media: {media_id}}});
+        try{
+          return this.media_filesRepository.find({where: {media: {media_id}}});
+        }catch(error){
+          return [];
+        }
     }
 
     findMedia_files() {

@@ -10,7 +10,7 @@ export class RechercheController {
     async search(@Body() textToSearch: string) {
         var response: ApiResponse = new ApiResponse();
         try{
-            response.data = [{ medias: await this.rechercheService.search(textToSearch) }];
+            response.data = [await this.rechercheService.search(textToSearch) ];
             response.success = true;
             response.status_code = 200;
         }catch(error){
