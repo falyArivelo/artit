@@ -22,7 +22,7 @@ export class MediasService {
           
           const mediaFileData = new Uint8Array();//await this.convertFileToByte(img);
           let file: Media_file = new Media_file();
-          file.media_file_data = mediaFileData;
+          //file.media_file_data = mediaFileData;
           medias.push(file);
       }
       return medias;
@@ -66,7 +66,7 @@ export class MediasService {
        } catch (error) {
            // Gérez les erreurs spécifiques si nécessaire
            console.error(error.message);
-           throw new Error(error.message || 'Une erreur est survenue lors de la création de la Media');
+           throw new Error(error.message);
            // throw new NotFoundException('Échec de la création de la Media');
          }
     }

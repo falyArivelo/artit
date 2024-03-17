@@ -11,6 +11,10 @@ export class Media_filesService {
         @InjectRepository(Media_file) private media_filesRepository: Repository<Media_file>,
     ) { }
 
+    findMedia_files_by_media(media_id: number) {
+        return this.media_filesRepository.find({where: {media: {media_id}}});
+    }
+
     findMedia_files() {
         return this.media_filesRepository.find({relations:[
             'media',

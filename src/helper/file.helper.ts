@@ -24,13 +24,18 @@ export function fileToUint8Array(file: File) {
 export async function getMediaFiles(files: File[]) {
     var medias: Media_file[] = [];
     for (let img of files) {
-        const mediaFileData = await convertFileToByte(img);
-        let file = new Media_file();
-        file.media_file_data = mediaFileData as Uint8Array;
+        let file: any = new Media_file();
+        console.log(img)
+        // Convert the image to a byte array using arrayBuffer()
+        const arrayBuffer = await (img as any).buffer;
+        const byteArray = new Uint8Array(arrayBuffer);
+        // Assuming Media_file has a property to store the byte array
+        file.media_file_data = byteArray;
         medias.push(file);
     }
     return medias;
 }
+
 
 /*function convertFileToByte(file) {
     return new Promise((resolve, reject) => {

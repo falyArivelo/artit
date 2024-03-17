@@ -4,6 +4,7 @@ import { IsNotEmpty, validateOrReject, ValidationError } from 'class-validator';
 import { User } from "./User.entity";
 import { Art_type } from "./Art_type.entity";
 import { Media_type } from "./Media_type.entity";
+import { Media_file } from "./Media_file.entity";
 
 @Entity({ name: 'medias' })
 export class Media {
@@ -43,6 +44,7 @@ export class Media {
 
    score: number;
 
+   file: Media_file[];
     
     //@BeforeInsert()
     //@BeforeUpdate()

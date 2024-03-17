@@ -1,1 +1,1 @@
-export const python_ai_endpoint = "http://localhost";
+export const python_ai_endpoint = "http://192.168.88.19";
