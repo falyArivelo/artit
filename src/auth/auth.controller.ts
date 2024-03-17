@@ -69,4 +69,14 @@ export class AuthController {
       return false;
     }
   }
+
+  @Post('byEmail')
+  async getUserByEmail(@Body('email') email: string) {
+    try {
+      const user = await this.userService.findByEmail(email);
+      return { success: true, data: user };
+    } catch (error) {
+      throw error;
+    }
+  }
 }
