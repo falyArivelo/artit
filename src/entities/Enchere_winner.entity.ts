@@ -9,7 +9,7 @@ export class Enchere_winner {
 
             //enchere_winner: number; 
             @PrimaryGeneratedColumn()
-         enchere_winner: number; 
+            enchere_winner_id: number; 
 
 
             @ManyToOne(() => User, { nullable: true })

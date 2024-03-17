@@ -1,6 +1,6 @@
 import { Media_file } from "src/entities/Media_file.entity";
 import { diskStorage } from 'multer';
-
+import * as fs from 'fs';
 // base64 to byteas
 export function Uint8ArrayFromBase64(base64: string) {
     return Uint8Array.from(window.atob(base64), (v) => v.charCodeAt(0));
@@ -26,19 +26,10 @@ export async function getMediaFiles(files: any[]) {
     var medias: Media_file[] = [];
     console.log(files);
     for (let img of files) {
-        console.log(img)
-        let file: any = new Media_file();
-        // Convert the image to a base64 string
-        const base64String = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(img.path);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = error => reject(error);
-        });
-
-        // Remove the data URL prefix (e.g., "data:image/png;base64,")
-        file.media_file_data = base64String.split(',')[1];
-        medias.push(file);
+        console.log("image ",img)
+        //const base64String = fs.readFileSync(img.pa)
+        //file.media_file_data = img.buffer;
+        //medias.push(file);
     }
     return medias;
 }

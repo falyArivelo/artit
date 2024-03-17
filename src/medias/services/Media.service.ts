@@ -8,18 +8,20 @@ import { UploadMediaDto } from '../dtos/UploadMedia.dto';
 import { Media_file } from 'src/entities/Media_file.entity';
 import { promises as fs } from 'fs';
 import { getMediaFiles } from 'src/helper/file.helper';
+import { Media_filesService } from 'src/media_files/services/Media_file.service';
 
 @Injectable()
 export class MediasService {
     constructor(
         @InjectRepository(Media) private mediasRepository: Repository<Media>,
         @InjectRepository(Media_file) private mediaFileRepository: Repository<Media_file>,
+        private mediaFileService: Media_filesService
     ) {  }
 
    
   
   async processSavingMedia(mediaDto: UploadMediaDto, files: File[]){
-      var mediaFiles : Media_file[] = await getMediaFiles(files);
+      //var mediaFiles : Media_file[] = await getMediaFiles(files);
       try {
         const { media_source ,media_name ,media_ia_descriptor ,media_key_word ,user_id ,art_type_id ,media_type_id ,} = mediaDto;
         const newMedia = this.mediasRepository.create({
@@ -34,25 +36,39 @@ export class MediasService {
         console.log("savee");
         await this.mediasRepository.save(newMedia);
         console.log("dqsdd")
-        for(let mediaFile of mediaFiles){
-            mediaFile.media = newMedia;
-            await this.mediaFileRepository.save(mediaFile);
+        /*for(let mediaFile of mediaFiles){
+          mediaFile.media = newMedia;
+          await this.mediaFileRepository.save(mediaFile);
+        }*/
+        const fs = require("fs");
+        for(let file of files){
+          let fileAny: any = file;
+          console.log("file ", fileAny);
+          const mediaFile = new Media_file();
+          mediaFile.media = newMedia;
+          const fileBuffer = fs.readFileSync(fileAny.path);
+    // Convertir le Buffer en chaîne Base64
+          const base64String = fileBuffer.toString('base64');
+          mediaFile.media_file_data = base64String// base64
+          await this.mediaFileRepository.save(mediaFile);
         }
         return 'La  Media a été créée avec succès';
        } catch (error) {
-           // Gérez les erreurs spécifiques si nécessaire
            console.error(error.message);
            throw new Error(error.message);
-           // throw new NotFoundException('Échec de la création de la Media');
          }
     }
 
-    findMedias() {
-        return this.mediasRepository.find({relations:[
-            'user',
-            'art_type',
-            'media_type',
-            ]})
+    async findMedias() {
+        var medias: Media[] = await this.mediasRepository.find({relations:[
+          'user',
+          'art_type',
+          'media_type',
+          ]})
+        for(var media of medias){
+          media.file = await this.mediaFileService.findMedia_files_by_media(media.media_id);
+        }
+        return medias
     }
 
     findMediaById(media_id: number) {

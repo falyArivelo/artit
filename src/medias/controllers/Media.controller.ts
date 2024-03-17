@@ -6,6 +6,7 @@ import { UploadMediaDto } from '../dtos/UploadMedia.dto';
 import {  NoFilesInterceptor } from '@nestjs/platform-express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { storage_config } from 'src/helper/file.helper';
+import { ApiResponse } from 'src/response/apiResponse.dto';
 
 @Controller('medias')
 export class MediasController {
@@ -13,7 +14,17 @@ export class MediasController {
 
     @Get()
     getMedias() {
-        return this.mediasService.findMedias();
+        const apiResponse: ApiResponse = new ApiResponse();
+        try {
+            apiResponse.data.push (this.mediasService.findMedias());
+            apiResponse.success = true;
+            apiResponse.status_code = 200;
+        } catch(error){
+            apiResponse.success = false;
+            apiResponse.message = error.message;
+            apiResponse.status_code = 500;
+        }
+        return apiResponse;
     }
 
     @Get(':id')
@@ -32,18 +43,22 @@ export class MediasController {
         }
     }
 
-    
 
     @Post("/save")
     @UseInterceptors(FilesInterceptor('files', null, { storage: storage_config}))
     async createMedia2(@Body() uploadMediaDto: UploadMediaDto, @UploadedFiles() files: File[]) {
+        const apiResponse: ApiResponse = new ApiResponse();
         try {
             this.mediasService.processSavingMedia(uploadMediaDto, files);
-            return "ok";
+            apiResponse.success = true;
+            apiResponse.message = "Successfully uploaded"
+            apiResponse.status_code = 200;
         } catch(error){
-            console.log("error",error);
-            return error;
+            apiResponse.success = false;
+            apiResponse.message = error.message;
+            apiResponse.status_code = 500;
         }
+        return apiResponse;
     }
 
     @Put(':id')

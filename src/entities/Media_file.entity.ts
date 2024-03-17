@@ -14,7 +14,7 @@ export class Media_file {
     @JoinColumn({ name: 'media_id' })
     media: Media;
 
-    @Column({ type: 'bytea' })
+    @Column({ type: 'text' })
     media_file_data: string;
 
 

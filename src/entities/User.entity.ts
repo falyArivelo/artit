@@ -31,10 +31,6 @@ export class User {
 
    @Column()
    photo_url: string;
-<<<<<<< Updated upstream
-=======
-   
->>>>>>> Stashed changes
 
    @BeforeInsert()
    @BeforeUpdate()

@@ -15,7 +15,7 @@ export class Enchere_winnersService {
         return this.enchere_winnersRepository.find({relations:[
             'user',
             'enchere',
-            ]})
+        ]})
     }
 
     findEnchere_winnerById(enchere_winner_id: number) {
