@@ -16,7 +16,7 @@ export class MediasController {
     getMedias() {
         const apiResponse: ApiResponse = new ApiResponse();
         try {
-            apiResponse.data.push (this.mediasService.findMedias());
+            apiResponse.data.push(this.mediasService.findMedias());
             apiResponse.success = true;
             apiResponse.status_code = 200;
         } catch(error){
