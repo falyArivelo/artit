@@ -7,7 +7,7 @@ import { Any, Repository, Transaction } from 'typeorm';
 import { UploadMediaDto } from '../dtos/UploadMedia.dto';
 import { Media_file } from 'src/entities/Media_file.entity';
 import { promises as fs } from 'fs';
-import { getMediaFiles } from 'src/helper/file.helper';
+import { Uint8ArrayFromBase64, getMediaFiles } from 'src/helper/file.helper';
 import { Media_filesService } from 'src/media_files/services/Media_file.service';
 import { User_historique } from 'src/entities/User_historique.entity';
 import axios from 'axios';
@@ -83,12 +83,15 @@ export class MediasService {
         const fs = require("fs");
         for(let file of files){
           let fileAny: any = file;
-          console.log("file ", fileAny);
           const mediaFile = new Media_file();
           mediaFile.media = newMedia;
+          /*
           const fileBuffer = fs.readFileSync(fileAny.path);
           const base64String = fileBuffer.toString('base64');
-          mediaFile.media_file_data = base64String// base64
+          console.log("file ", file);*/
+       //   const uint8Array = new Uint8Array(fileBuffer.buffer, fileBuffer.byteOffset, fileBuffer.byteLength);
+          mediaFile.media_file_data = fileAny.filename;
+          //mediaFile.media_file_data = (base64String)// base64
           await this.mediaFileRepository.save(mediaFile);
         }
         return 'La  Media a été créée avec succès';

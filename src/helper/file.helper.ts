@@ -1,6 +1,7 @@
 import { Media_file } from "src/entities/Media_file.entity";
 import { diskStorage } from 'multer';
 import * as fs from 'fs';
+import { imageDirectory } from "src/constante";
 // base64 to byteas
 export function Uint8ArrayFromBase64(base64: string) {
     return Uint8Array.from(window.atob(base64), (v) => v.charCodeAt(0));
@@ -75,7 +76,7 @@ function convertFileToByte(file: File) {
 }
 
 export const storage_config = diskStorage({
-    destination: './uploads',
+    destination: imageDirectory,
     filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
       cb(null, file.fieldname + '-' + uniqueSuffix);

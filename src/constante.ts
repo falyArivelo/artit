@@ -1,0 +1,1 @@
+export const imageDirectory = "/var/www/html/artIt2-image"
