@@ -28,8 +28,18 @@ export class MediasController {
     }
 
     @Get(':id')
-    getMedia(@Param('id') id: number) {
-        return this.mediasService.findMediaById(id);
+    async getMedia(@Param('id') id: number) {
+        const apiResponse: ApiResponse = new ApiResponse();
+        try {
+            apiResponse.data = await this.mediasService.findMediaById(id);;
+            apiResponse.success = true;
+            apiResponse.status_code = 200;
+        } catch(error){
+            apiResponse.success = false;
+            apiResponse.message = error.message;
+            apiResponse.status_code = 500;
+        }
+        return apiResponse;
     }
 
     @Get('user/:id')
@@ -53,6 +63,7 @@ export class MediasController {
     @UseInterceptors(FilesInterceptor('files', null, { storage: storage_config}))
     async createMedia2(@Body() uploadMediaDto: UploadMediaDto, @UploadedFiles() files: File[]) {
         const apiResponse: ApiResponse = new ApiResponse();
+        console.log("tafiditra");
         try {
             this.mediasService.processSavingMedia(uploadMediaDto, files);
             apiResponse.success = true;

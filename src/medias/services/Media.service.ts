@@ -31,9 +31,16 @@ export class MediasService {
   }
 
   async processFetchUserPreferedMedia(user_id: number) {
+    try{
+
+    
     const last_search : User_historique = await this.user_historiqueRepository.findOne({where: {user_id}, order: {date: 'DESC'}});
+    
     const text = last_search.last_search;
     const sorted_media : Media[] = await this.mediasRepository.find();
+    if(last_search == null) {
+      return sorted_media;
+    }
     const textToTrain = this.convertMediaArrayToFormatToTrain(sorted_media);
     textToTrain["target"] = text;
     console.log("textToTrain ", textToTrain);
@@ -51,6 +58,9 @@ export class MediasService {
     const valid_medias = this.sortMediaByValidIndex(sorted_media, valid_medias_index);
     await this.fetchMediaFiles(valid_medias);
     return valid_medias;
+    }catch(e){
+      return await this.mediasRepository.find();   
+    }
   }
   
   sortMediaByValidIndex(sorted_media, valid_medias_index) {
@@ -108,7 +118,7 @@ export class MediasService {
           'media_type',
           ]})
         await this.fetchMediaFiles(medias);
-        return { "medias" : medias}
+        return medias
     }
 
     async fetchMediaFiles(medias: Media[]){

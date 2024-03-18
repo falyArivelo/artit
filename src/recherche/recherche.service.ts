@@ -26,17 +26,21 @@ export class RechercheService {
     }
 
     async search(textToSearch: any){
-        var text = textToSearch.recherche;
+        var text =  textToSearch.recherche.toLowerCase();
         const response = await axios.post(python_ai_endpoint + ":1114/translate", {"text": text});
         text = response.data.translation;
-        
+        console.log("Translated ", text);
         this.saveUserSearch(textToSearch.user_id, text);
 
-        var medias: Media[] = await this.mediaRepository.find();
+        var medias: Media[] = await this.mediaRepository.find({relations:[
+            'user',
+            'art_type',
+            'media_type',
+            ]});
         const url = python_ai_endpoint + ":1113/compare";
         for(let i = 0; i < medias.length; i++){
             const data =  {
-                word: medias[i].media_ia_descriptor,
+                word: medias[i].media_ia_descriptor ,
                 search: text
             };
             const response: any = await axios.post(url, data);
