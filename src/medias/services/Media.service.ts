@@ -12,6 +12,7 @@ import { Media_filesService } from 'src/media_files/services/Media_file.service'
 import { User_historique } from 'src/entities/User_historique.entity';
 import axios from 'axios';
 import { json } from 'stream/consumers';
+import { python_ai_endpoint } from 'src/api-conf';
 
 @Injectable()
 export class MediasService {
@@ -30,49 +31,90 @@ export class MediasService {
     return textToTrain;
   }
 
+  saveUserSearch(user_id: number, last_search: string){
+    var user_historique = new User_historique();
+    user_historique.user_id = user_id;
+    user_historique.last_search = last_search;
+    this.user_historiqueRepository.save(user_historique);
+}
+
+  async search(text2: any) {
+    try{
+      var text = text2.recherche.toLowerCase();
+      const response = await axios.post(python_ai_endpoint + ":1114/translate", {"text": text});
+      text = response.data.translation;
+      this.saveUserSearch(text2.user_id, text);
+      const sorted_media : Media[] = await this.mediasRepository.find({relations:[
+        'user',
+        'art_type',
+        'media_type',
+        ]});
+    
+      const textToTrain = this.convertMediaArrayToFormatToTrain(sorted_media);
+      textToTrain["target"] = text;
+      console.log("textToTrain ", textToTrain);
+      const data = { 
+        "texts": textToTrain
+      }
+      const result: any = await axios.post(python_ai_endpoint + ":1115/clustering", data)
+      console.log("result ", result.data.result);
+      const valid_index = result.data.result;
+      const valid_medias_index = [];
+      for(let i = 0; i< valid_index.length; i++){
+        valid_medias_index.push(parseInt(valid_index[i].replace("MED", "")));
+      }
+      console.log("valid_medias_index ", valid_medias_index);
+      const valid_medias = this.sortMediaByValidIndex(sorted_media, valid_medias_index);
+      await this.fetchMediaFiles(valid_medias);
+      return { "medias": valid_medias, "translated_text": text, "original_text": text2.recherche};
+    }catch(e){
+      return await this.mediasRepository.find();   
+    }
+  }
+
   async processFetchUserPreferedMedia(user_id: number) {
     try{
-
-    
-    const last_search : User_historique = await this.user_historiqueRepository.findOne({where: {user_id}, order: {date: 'DESC'}});
-    
-    const text = last_search.last_search;
-    const sorted_media : Media[] = await this.mediasRepository.find();
-    if(last_search == null) {
-      return sorted_media;
-    }
-    const textToTrain = this.convertMediaArrayToFormatToTrain(sorted_media);
-    textToTrain["target"] = text;
-    console.log("textToTrain ", textToTrain);
-    const data = { 
-      "texts": textToTrain
-    }
-    const result: any = await axios.post("http://192.168.1.11:1115/clustering", data)
-    console.log("result ", result.data.result);
-    const valid_index = result.data.result;
-    const valid_medias_index = [];
-    for(let i = 0; i< valid_index.length; i++){
-      valid_medias_index.push(parseInt(valid_index[i].replace("MED", "")));
-    }
-    console.log("valid_medias_index ", valid_medias_index);
-    const valid_medias = this.sortMediaByValidIndex(sorted_media, valid_medias_index);
-    await this.fetchMediaFiles(valid_medias);
-    return valid_medias;
+      const last_search : User_historique = await this.user_historiqueRepository.findOne({where: {user_id}, order: {date: 'DESC'}});
+      const text = last_search.last_search;
+      const sorted_media : Media[] = await this.mediasRepository.find({relations:[
+        'user',
+        'art_type',
+        'media_type',
+        ]});
+      if(last_search == null) {
+        return sorted_media;
+      }
+      const textToTrain = this.convertMediaArrayToFormatToTrain(sorted_media);
+      textToTrain["target"] = text;
+      console.log("textToTrain ", textToTrain);
+      const data = { 
+        "texts": textToTrain
+      }
+      const result: any = await axios.post(python_ai_endpoint + ":1115/clustering", data)
+      console.log("result ", result.data.result);
+      const valid_index = result.data.result;
+      const valid_medias_index = [];
+      for(let i = 0; i< valid_index.length; i++){
+        valid_medias_index.push(parseInt(valid_index[i].replace("MED", "")));
+      }
+      console.log("valid_medias_index ", valid_medias_index);
+      const valid_medias = this.sortMediaByValidIndex(sorted_media, valid_medias_index);
+      await this.fetchMediaFiles(valid_medias);
+      return valid_medias;
     }catch(e){
       return await this.mediasRepository.find();   
     }
   }
   
   sortMediaByValidIndex(sorted_media, valid_medias_index) {
+    
     return sorted_media.sort((a, b) => {
        const indexA = valid_medias_index.indexOf(a.media_id);
        const indexB = valid_medias_index.indexOf(b.media_id);
    
-       // Si a.media_id n'est pas dans valid_medias_index, on le place à la fin
        if (indexA === -1) return 1;
        if (indexB === -1) return -1;
    
-       // Sinon, on trie selon l'ordre dans valid_medias_index
        return indexA - indexB;
     });
    }
@@ -93,8 +135,11 @@ export class MediasService {
         const fs = require("fs");
         for(let file of files){
           let fileAny: any = file;
+          console.log(fileAny)
           const mediaFile = new Media_file();
           mediaFile.media = newMedia;
+          const extension = fileAny.originalname.split(".").pop();
+          mediaFile.extension = extension
           /*
           const fileBuffer = fs.readFileSync(fileAny.path);
           const base64String = fileBuffer.toString('base64');
@@ -127,8 +172,8 @@ export class MediasService {
       }
     }
 
-    findMediaById(media_id: number) {
-        const medias = this.mediasRepository.findOne({
+    async findMediaById(media_id: number) {
+        const medias = await this.mediasRepository.findOne({
            where: { media_id },
            relations:[
             'user',
@@ -136,7 +181,7 @@ export class MediasService {
             'media_type',
             ]
             });
-
+        medias.file = await this.mediaFileService.findMedia_files_by_media((await medias).media_id)
         if (!medias) {
             throw new NotFoundException(`Media with ID not found`);
         }

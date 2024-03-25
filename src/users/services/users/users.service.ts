@@ -11,6 +11,10 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
+  pagination(start: number, end: number){
+    this.userRepository.query("sele");
+  }
+
   findUsers() {
     return this.userRepository.find({
       relations: ['profil'],

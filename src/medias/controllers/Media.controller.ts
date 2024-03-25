@@ -12,6 +12,7 @@ import { ApiResponse } from 'src/response/apiResponse.dto';
 export class MediasController {
     constructor(private mediasService: MediasService, ) { }
 
+    // http:192.168.88.20/medias/
     @Get()
     async getMedias() {
         const apiResponse: ApiResponse = new ApiResponse();
@@ -27,7 +28,23 @@ export class MediasController {
         return apiResponse;
     }
 
-    @Get(':id')
+    @Post("/recherche")
+    async search(@Body() textToSearch: string) {
+        var response: ApiResponse = new ApiResponse();
+        try{
+            response.data = await this.mediasService.search(textToSearch);
+            response.success = true
+            response.status_code = 200;
+        }catch(error){
+            response.success = false;
+            response.error = true;
+            response.message = error.message;
+            response.status_code = 500;
+        }
+        return response;
+    }
+
+    @Get('/:id')
     async getMedia(@Param('id') id: number) {
         const apiResponse: ApiResponse = new ApiResponse();
         try {
@@ -42,9 +59,19 @@ export class MediasController {
         return apiResponse;
     }
 
-    @Get('user/:id')
+    @Get('/user/:id')
     async getMediaByUserId(@Param('id') id: number) {
-       return await this.mediasService.processFetchUserPreferedMedia(id);
+       const apiResponse: ApiResponse = new ApiResponse();
+       try {
+           apiResponse.data = await this.mediasService.processFetchUserPreferedMedia(id);
+           apiResponse.success = true;
+           apiResponse.status_code = 200;
+       } catch(error){
+           apiResponse.success = false;
+           apiResponse.message = error.message;
+           apiResponse.status_code = 500;
+       }
+       return apiResponse;
     }
 
     @Post()

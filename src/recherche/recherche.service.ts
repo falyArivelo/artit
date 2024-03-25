@@ -31,12 +31,11 @@ export class RechercheService {
         text = response.data.translation;
         console.log("Translated ", text);
         this.saveUserSearch(textToSearch.user_id, text);
-
         var medias: Media[] = await this.mediaRepository.find({relations:[
             'user',
             'art_type',
             'media_type',
-            ]});
+        ]});
         const url = python_ai_endpoint + ":1113/compare";
         for(let i = 0; i < medias.length; i++){
             const data =  {

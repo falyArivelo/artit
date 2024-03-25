@@ -2,6 +2,7 @@ import { Media_file } from "src/entities/Media_file.entity";
 import { diskStorage } from 'multer';
 import * as fs from 'fs';
 import { imageDirectory } from "src/constante";
+import { Media } from "src/entities/Media.entity";
 // base64 to byteas
 export function Uint8ArrayFromBase64(base64: string) {
     return Uint8Array.from(window.atob(base64), (v) => v.charCodeAt(0));
@@ -82,3 +83,12 @@ export const storage_config = diskStorage({
       cb(null, file.fieldname + '-' + uniqueSuffix);
     },
   });
+
+
+export function convertMediaArrayToFormatToTrain(medias: Media[]){
+    var textToTrain = {};
+    for(let media of medias){
+      textToTrain [media.media_id + 'MED'] = media.media_ia_descriptor;
+    }
+    return textToTrain;
+  }

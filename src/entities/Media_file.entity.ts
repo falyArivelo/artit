@@ -17,6 +17,9 @@ export class Media_file {
     @Column({ type: 'text' })
     media_file_data: string;
 
+    @Column({ type: 'text', nullable: true } )
+    extension: string;
+
 
 //    @BeforeInsert()
 //    @BeforeUpdate()
